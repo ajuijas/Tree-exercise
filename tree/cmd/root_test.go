@@ -30,7 +30,7 @@ func captureStandardOutput() (func () string) {
 }
 
 // Function to create temporary directories and files to test the tree structure
-func createTempDirsAndFiles() {
+func createTempDirsAndFiles() (func ()) {
 	// Create temporary directories and files
 	_ = os.MkdirAll("test_dir", 0755)
 	_ = os.WriteFile("test_dir/test_file", []byte("test content"), 0644)
@@ -44,12 +44,17 @@ func createTempDirsAndFiles() {
 	_ = os.MkdirAll("test_dir/test_dir_lvl_1/test_dir_lvl_2/test_dir_lvl_3/test_dir_lvl_4_1", 0755)
 	_ = os.MkdirAll("test_dir/test_dir_lvl_1/test_dir_lvl_2/test_dir_lvl_3/test_dir_lvl_4_2", 0755)
 	_ = os.MkdirAll("test_dir/test_dir_lvl_1/test_dir_lvl_2/test_dir_lvl_3/test_dir_lvl_4_3", 0755)
+
+	return func() {
+		_ = os.RemoveAll("test_dir")
+	}
 }
 
 
 func Test_print_tree_structure(t *testing.T){
 
-	createTempDirsAndFiles()
+	cleanup := createTempDirsAndFiles()
+	defer cleanup()
 
 	tests := []struct {
 		args []string
