@@ -4,8 +4,6 @@ import (
 	"bytes"
 	"os"
 	"testing"
-
-	"golang.org/x/tools/go/expect"
 )
 
 func captureStandardOutput() (func () string) {
@@ -103,6 +101,8 @@ func Test_print_tree_structure(t *testing.T){
 		
 		stdout := capture()
 
-		expect.Equal(t, stdout, test.expectedOutput)
+		if stdout != test.expectedOutput {
+			t.Errorf("Expected output: <<%s>>, but got: <<%s>>", test.expectedOutput, stdout)
+		}
 	}
 }
