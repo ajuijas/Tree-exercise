@@ -1,30 +1,57 @@
 /*
 Copyright © 2025 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
 )
 
+var relativePath bool
 
+func printTreeStructure(directory string, nestLevel int, isBase bool) {
+
+	entries, err := os.ReadDir(directory)
+	if err != nil {
+		return
+	}
+	for i, entry := range entries {
+		for i := 1; i<nestLevel; i++ {
+				fmt.Print(" │  ")
+		}
+		var arrow string
+		if i == len(entries)-1{
+			arrow = " └── "
+		}else{
+			arrow = " ├── "
+		}
+		if !entry.IsDir() {
+			fmt.Print(arrow, entry.Name() + "\n")
+		}else{
+			if !isBase{
+				fmt.Print(arrow + directory + "\n")
+			}else {
+				fmt.Print(directory + "\n")
+			}
+			printTreeStructure(directory + "/" + entry.Name(), nestLevel+1, false)
+		}
+	}
+}
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "tree",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
+	Short: "A simple command line program that implements Unix tree like functionality.",
+	Long: ``,
+	Args: cobra.MinimumNArgs(1),
+	Run: func(cmd *cobra.Command, args []string) {
+		directory := args[0]
+		var nestLevel int 
+		printTreeStructure(directory, nestLevel, true)
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -46,6 +73,7 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.PersistentFlags().BoolVarP(&relativePath, "Relative Path", "f", false, "Print relative path")
 }
 
 
