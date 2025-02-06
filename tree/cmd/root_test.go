@@ -47,7 +47,7 @@ func createTempDirsAndFiles() (func ()) {
 	_ = os.MkdirAll("src/test/java/in", 0755)
 	_ = os.MkdirAll("src/test/java/in/one2n", 0755)
 	_ = os.MkdirAll("src/test/java/in/one2n/exercise", 0755)
-	_ = os.WriteFile("src/test/java/in/one2n/exercise/GradeTest.java", []byte("test content"), 0644)
+	_ = os.WriteFile("src/test/java/in/one2n/exercise/GraderTest.java", []byte("test content"), 0644)
 	_ = os.MkdirAll("src/test/resources", 0755)
 	_ = os.WriteFile("src/test/resources/grades.csv", []byte("test content"), 0644)
 
@@ -91,24 +91,6 @@ func Test_print_tree_structure(t *testing.T){
 12 directories, 5 files
 `,
 		},
-// 		{
-// 			args: []string{"-f", "test_dir"},
-// 			expectedOutput: `test_dir
-// ├── test_dir/test_dir_lvl_1
-// │   ├── test_dir/test_dir_lvl_1/test_dir_lvl_2
-// │   │   ├── test_dir/test_dir_lvl_1/test_dir_lvl_2/test_dir_lvl_3
-// │   │   │   ├── test_dir/test_dir_lvl_1/test_dir_lvl_2/test_dir_lvl_3/test_file_1
-// │   │   │   ├── test_dir/test_dir_lvl_1/test_dir_lvl_2/test_dir_lvl_3/test_dir_lvl_4
-// │   │   │   ├── test_dir/test_dir_lvl_1/test_dir_lvl_2/test_dir_lvl_3/test_dir_lvl_4_1
-// │   │   │   ├── test_dir/test_dir_lvl_1/test_dir_lvl_2/test_dir_lvl_3/test_dir_lvl_4_2
-// │   │   │   └── test_dir/test_dir_lvl_1/test_dir_lvl_2/test_dir_lvl_3/test_dir_lvl_4_3
-// │   │   └── test_dir/test_dir_lvl_1/test_dir_lvl_2/test_file_2
-// │   └── test_dir/test_dir_lvl_1/test_file_3
-// └── test_dir/test_file_4
-
-// 7 directories, 4 files
-// `,
-// 		},
 	}
 
 	for _, test := range tests {

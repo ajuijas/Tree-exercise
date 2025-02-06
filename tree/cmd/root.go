@@ -11,32 +11,43 @@ import (
 )
 
 var relativePath bool
+var pipeMap map[int]bool
+var directoriesCount, filesCount int
 
 func printTreeStructure(directory string, nestLevel int, isBase bool) {
-
 	entries, err := os.ReadDir(directory)
 	if err != nil {
 		return
 	}
+
+	balence := 0
+
+	for i := 0; i < nestLevel; i++ {
+		balence+= 1
+	}
+
 	for i, entry := range entries {
-		for i := 1; i<nestLevel; i++ {
-				fmt.Print(" │  ")
-		}
-		var arrow string
-		if i == len(entries)-1{
-			arrow = " └── "
-		}else{
-			arrow = " ├── "
-		}
-		if !entry.IsDir() {
-			fmt.Print(arrow, entry.Name() + "\n")
-		}else{
-			if !isBase{
-				fmt.Print(arrow + directory + "\n")
+		var j int
+		for j = 0; j < balence; j++ {
+			if pipeMap[j] {
+				fmt.Print("│   ")
 			}else {
-				fmt.Print(directory + "\n")
+				fmt.Print("    ")
 			}
-			printTreeStructure(directory + "/" + entry.Name(), nestLevel+1, false)
+		}
+		if i == len(entries) - 1 {
+			fmt.Print("└── ",entry.Name(), "\n")
+			pipeMap[j] = false
+		}else {
+			fmt.Print("├── ",entry.Name(), "\n")
+			pipeMap[j] = true
+		}
+
+		if entry.IsDir() {
+			directoriesCount += 1
+			printTreeStructure(directory + "/" + entry.Name(), nestLevel + 1, false)
+		}else {
+			filesCount += 1
 		}
 	}
 }
@@ -48,9 +59,13 @@ var rootCmd = &cobra.Command{
 	Long: ``,
 	Args: cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
+		pipeMap = make(map[int]bool)
 		directory := args[0]
 		var nestLevel int 
+		fmt.Println(directory)
 		printTreeStructure(directory, nestLevel, true)
+		fmt.Print("\n")
+		fmt.Println(directoriesCount, "directories,", filesCount, "files")
 	},
 }
 
