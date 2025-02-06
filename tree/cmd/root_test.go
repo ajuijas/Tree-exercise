@@ -91,6 +91,59 @@ func Test_print_tree_structure(t *testing.T){
 12 directories, 5 files
 `,
 		},
+		{
+			args: []string{"-f", "src"},
+			expectedOutput: `src
+├── src/main
+│   ├── src/main/java
+│   │   └── src/main/java/in
+│   │       └── src/main/java/in/one2n
+│   │           └── src/main/java/in/one2n/exercise
+│   │               ├── src/main/java/in/one2n/exercise/Grade.java
+│   │               ├── src/main/java/in/one2n/exercise/Grader.java
+│   │               └── src/main/java/in/one2n/exercise/Student.java
+│   └── src/main/resources
+└── src/test
+    ├── src/test/java
+    │   └── src/test/java/in
+    │       └── src/test/java/in/one2n
+    │           └── src/test/java/in/one2n/exercise
+    │               └── src/test/java/in/one2n/exercise/GraderTest.java
+    └── src/test/resources
+        └── src/test/resources/grades.csv
+
+12 directories, 5 files`},
+			{
+			args: []string{"-d", "src"},
+			expectedOutput: `src
+├── main
+│   ├── java
+│   │   └── in
+│   │       └── one2n
+│   │           └── exercise
+│   └── resources
+└── test
+    ├── java
+    │   └── in
+    │       └── one2n
+    │           └── exercise
+    └── resources
+
+12 directories`},
+		{
+			args: []string{"-L", "3", "src"},
+			expectedOutput: `src
+├── main
+│   ├── java
+│   │   └── in
+│   └── resources
+└── test
+    ├── java
+    │   └── in
+    └── resources
+        └── grades.csv
+
+8 directories, 1 file`},
 	}
 
 	for _, test := range tests {
