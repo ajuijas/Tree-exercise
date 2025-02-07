@@ -53,7 +53,7 @@ func createTempDirsAndFiles() (func ()) {
 
 
 	return func() {
-		_ = os.RemoveAll("src")
+		// _ = os.RemoveAll("src")
 	}
 }
 
@@ -112,7 +112,8 @@ func Test_print_tree_structure(t *testing.T){
     └── src/test/resources
         └── src/test/resources/grades.csv
 
-12 directories, 5 files`},
+12 directories, 5 files
+`},
 			{
 			args: []string{"-d", "src"},
 			expectedOutput: `src
@@ -129,7 +130,8 @@ func Test_print_tree_structure(t *testing.T){
     │           └── exercise
     └── resources
 
-12 directories`},
+12 directories
+`},
 		{
 			args: []string{"-L", "3", "src"},
 			expectedOutput: `src
@@ -143,11 +145,38 @@ func Test_print_tree_structure(t *testing.T){
     └── resources
         └── grades.csv
 
-8 directories, 1 file`},
-	}
+8 directories, 1 file
+`},
+		{
+			args: []string{"-p", "src"},
+			expectedOutput: `src
+├── [-rwxr-xr-x]  main
+│   ├── [-rwxr-xr-x]  java
+│   │   └── [-rwxr-xr-x]  in
+│   │       └── [-rwxr-xr-x]  one2n
+│   │           └── [-rwxr-xr-x]  exercise
+│   │               ├── [-rw-r--r--]  Grade.java
+│   │               ├── [-rw-r--r--]  Grader.java
+│   │               └── [-rw-r--r--]  Student.java
+│   └── [-rwxr-xr-x]  resources
+└── [-rwxr-xr-x]  test
+    ├── [-rwxr-xr-x]  java
+    │   └── [-rwxr-xr-x]  in
+    │       └── [-rwxr-xr-x]  one2n
+    │           └── [-rwxr-xr-x]  exercise
+    │               └── [-rw-r--r--]  GraderTest.java
+    └── [-rwxr-xr-x]  resources
+        └── [-rw-r--r--]  grades.csv
+
+12 directories, 5 files
+`,},
+		}
 
 	for _, test := range tests {
 		capture := captureStandardOutput()
+
+		relativePath, directoryOnly, pemission = false, false, false
+		directoriesCount, filesCount, nestedLevel = 0, 0, 0
 
 		rootCmd.SetArgs(test.args)
 		_ = rootCmd.Execute()
