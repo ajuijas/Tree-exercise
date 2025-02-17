@@ -148,8 +148,8 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	rootCmd.PersistentFlags().BoolVarP(&relativePath, "Relative Path", "f", false, "Print the relative path to the directory being searched.")
-	rootCmd.PersistentFlags().BoolVarP(&directoryOnly, "Directory Only", "d", false, "Only print directories, not files.")
-	rootCmd.PersistentFlags().BoolVarP(&pemission, "Pemission", "p", false, "Print file permissions for all files.")
-	rootCmd.PersistentFlags().IntVarP(&nestedLevel, "Nested Levels", "L", 0, "Allow traversing specified nested levels only.")
+	rootCmd.PersistentFlags().BoolVarP(&relativePath, "relative-path", "f", false, "Print the relative path to the directory being searched.")
+	rootCmd.PersistentFlags().BoolVarP(&directoryOnly, "directory-only", "d", false, "Only print directories, not files.")
+	rootCmd.PersistentFlags().BoolVarP(&pemission, "permission", "p", false, "Print file permissions for all files.")
+	rootCmd.PersistentFlags().IntVarP(&nestedLevel, "level", "L", 0, "Allow traversing specified nested levels only.")
 }

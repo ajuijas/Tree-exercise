@@ -28,7 +28,8 @@ cd Tree-exercise
 
 3. Build the program:
 ```bash
-go build -o tree ./tree
+# This will create the binary in the project root directory
+go build -o ./tree ./tree/
 ```
 
 ## How to Use It
@@ -40,7 +41,7 @@ Here are some basic commands you can try:
 ./tree
 
 # Show full paths
-./tree --relative
+./tree --relative-path
 
 # Show permissions
 ./tree --permission
