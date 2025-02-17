@@ -53,7 +53,7 @@ func createTempDirsAndFiles() (func ()) {
 
 
 	return func() {
-		// _ = os.RemoveAll("src")
+		_ = os.RemoveAll("src")
 	}
 }
 
